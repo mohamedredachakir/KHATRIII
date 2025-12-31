@@ -15,7 +15,9 @@ CREATE DATABASE khatriii
     CREATE TABLE roles (
         id_user INT NOT NULL UNIQUE,
         first_name VARCHAR(50),
-        role ENUM('reader','author','admin') NOT NULL DEFAULT 'reader'
+        role ENUM('reader','author','admin') NOT NULL DEFAULT 'reader',
+        FOREIGN KEY (id_user) REFERENCES users(id),
+        FOREIGN KEY (first_name) REFERENCES users(first_name)
     );
 
     CREATE TABLE articles (
@@ -25,7 +27,9 @@ CREATE DATABASE khatriii
         name_author VARCHAR(50),
         content LONGTEXT NOT NULL,
         create_at DATETIME NOT NULL,
-        category ENUM('history','philosophy','science') NOT NULL
+        category ENUM('history','philosophy','science','other') NOT NULL,
+        FOREIGN KEY (id_user) REFERENCES users(id),
+        FOREIGN KEY (id_article) REFERENCES users(first_name)
     );
 
     CREATE TABLE commentaires (
@@ -34,11 +38,15 @@ CREATE DATABASE khatriii
         id_reader INT NOT NULL,
         content TEXT NOT NULL,
         create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_article) REFERENCES articles (id),
+        FOREIGN KEY (id_reader) REFERENCES users (id)
     );
 
     CREATE TABLE likes (
         id INT AUTO_ENCREMENT PRIMARY KEY,
         id_article INT NOT NULL,
         id_reader INT NOT NULL,
+        FOREIGN KEY (id_article) REFERENCES articles (id),
+        FOREIGN KEY (id_reader) REFERENCES users (id)
     );
 
