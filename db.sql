@@ -1,10 +1,10 @@
 
 
 
-CREATE DATABASE KHATRiii
+CREATE DATABASE EL_CUADERNO
 
     CREATE TABLE users (
-        id INT AUTO_ENCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
         email VARCHAR(50) NOT NULL UNIQUE,
@@ -18,7 +18,7 @@ CREATE DATABASE KHATRiii
     );
 
     CREATE TABLE articles (
-        id INT AUTO_ENCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         id_user INT NOT NULL,
         title VARCHAR(100) NOT NULL,
         content LONGTEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE DATABASE KHATRiii
     );
 
     CREATE TABLE categories (
-        id INT AUTO_ENCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL
     );
 
@@ -40,7 +40,7 @@ CREATE DATABASE KHATRiii
     );
 
     CREATE TABLE commentaires (
-        id INT AUTO_ENCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         id_article INT NOT NULL,
         id_reader INT NOT NULL,
         content TEXT NOT NULL,
