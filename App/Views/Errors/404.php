@@ -1,55 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Scroll Not Found | QRAYATHON</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap');
-        .font-royal { font-family: 'Cinzel', serif; }
-        .bg-king { background-color: #1a1a2e; }
-        .text-gold { color: #c5a059; }
-        .border-gold { border-color: #c5a059; }
-        .gold-shadow { box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3); }
-    </style>
-</head>
-<body class="bg-king h-screen flex items-center justify-center text-white overflow-hidden">
+<?php
+require_once __DIR__ . '/../Layouts/header.php';
+require_once __DIR__ . '/../Layouts/navbar.php';
+?>;
 
-    <div class="text-center p-8 relative z-10">
-        <div class="absolute inset-0 opacity-5 flex items-center justify-center -z-10">
-            <i class="fas fa-scroll text-[25rem]"></i>
+<main class="relative z-20 min-h-[70vh] flex items-center justify-center px-6">
+    <div class="max-w-3xl w-full text-center space-y-12 py-20">
+        
+        <div class="relative">
+            <h1 class="text-[12rem] md:text-[18rem] font-book font-black opacity-[0.03] absolute inset-0 flex items-center justify-center select-none">
+                404
+            </h1>
+            <div class="relative z-10 flex flex-col items-center">
+                <span class="text-6xl md:text-8xl mb-6">*</span>
+                <h2 class="text-4xl md:text-6xl font-book font-bold italic tracking-tighter text-ink">
+                    Lost in the <span class="text-gold">Archives.</span>
+                </h2>
+            </div>
         </div>
 
-        <h1 class="text-9xl font-royal text-gold mb-2 animate__animated animate__fadeInDown">404</h1>
-        
-        <h2 class="text-2xl font-royal mb-6 tracking-[0.3em] uppercase">Manuscript Missing</h2>
-        
-        <p class="text-gray-400 max-w-sm mx-auto mb-12 leading-relaxed italic">
-            "Not all who wander are lost, but this page certainly is."
-        </p>
+        <div class="space-y-6 max-w-xl mx-auto">
+            <p class="font-book text-xl md:text-2xl text-ink/70 leading-relaxed italic">
+                "Alas, the page you seek has been torn from the chronicles or was never written by the scribes. Even in the path to victory, one might find a silent hall."
+            </p>
+            
+            <div class="flex items-center justify-center space-x-4 opacity-30">
+                <div class="h-px w-12 bg-ink"></div>
+                <span class="text-xl">❦</span>
+                <div class="h-px w-12 bg-ink"></div>
+            </div>
+        </div>
 
-        <div class="flex justify-center">
-            <a href="/" 
-               class="group relative inline-flex items-center gap-4 px-10 py-4 bg-transparent border-2 border-gold text-gold font-bold rounded-full overflow-hidden transition-all duration-500 hover:bg-gold hover:text-king gold-shadow">
-                
-                <i class="fas fa-home transition-transform group-hover:scale-110"></i>
-                <span class="tracking-[0.2em] uppercase">Back to Home</span>
-                
-                <div class="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6 pt-10">
+            <a href="../index.php" class="bg-[#2c1810] text-paper px-10 py-4 rounded-full font-ui text-xs font-black uppercase tracking-[0.2em] hover:bg-gold hover:text-[#2c1810] transition-all shadow-2xl flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Return to Citadel
+            </a>
+            
+            <a href="../articles.php" class="border border-ink/20 px-10 py-4 rounded-full font-ui text-xs font-black uppercase tracking-[0.2em] hover:border-gold hover:text-gold transition-all italic">
+                Explore Chronicles
             </a>
         </div>
 
-        <div class="mt-8">
-            <a href="index.php?url=books" class="text-gray-500 hover:text-white text-xs uppercase tracking-widest transition">
-                View Available Archives Instead
-            </a>
+        <div class="pt-20">
+            <p class="text-[9px] font-ui uppercase tracking-[0.8em] text-gold/40 font-bold">
+                Error IV - Page Expelled from History
+            </p>
         </div>
     </div>
+</main>
 
-    <div class="fixed top-0 left-0 w-32 h-32 border-t-4 border-l-4 border-gold/20 m-8"></div>
-    <div class="fixed bottom-0 right-0 w-32 h-32 border-b-4 border-r-4 border-gold/20 m-8"></div>
 
-</body>
-</html>
+<?php require_once __DIR__ . '/../Layouts/footer.php';?>

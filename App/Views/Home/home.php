@@ -112,4 +112,4 @@ require_once __DIR__ . '/../Layouts/navbar.php';
 
 
 
-require_once __DIR__ . '/../Layouts/footer.php';
+<?php require_once __DIR__ . '/../Layouts/footer.php';?>
