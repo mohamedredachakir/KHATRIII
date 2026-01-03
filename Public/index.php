@@ -5,7 +5,10 @@ require __DIR__ . '/../App/Core/db.php';
 
 use App\Core\Router;
 
+
 session_start();
+
 
 $router = new Router();
 $router->get('/','HomeController@index');
+$router->dispatch();

@@ -20,9 +20,9 @@ class Router {
             $controller->$methodeName();
             return;
         }else{
-            $controllerClass = "App\\controllers\\404Controller";
+            $controllerClass = "App\\Controllers\\ErrorController";
             $controller = new $controllerClass();
-            $controller->index();
+            $controller->notFound();
             return;
         };
 
