@@ -12,7 +12,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
         <p class="font-book text-ink/40 italic">"Polishing the ink of history for future generations."</p>
         <div class="flex items-center justify-center space-x-4 opacity-20 mt-6">
             <div class="h-px w-16 bg-ink"></div>
-            <span class="text-xl">📜</span>
+            <span class="text-xl">*</span>
             <div class="h-px w-16 bg-ink"></div>
         </div>
     </div>
