@@ -29,4 +29,10 @@ class Article {
 
         return $stmt->execute();
     }
+    public function getallarticles(){
+        $sql = "SELECT * FROM {$this->table}
+        ORDER BY create_at DESC";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

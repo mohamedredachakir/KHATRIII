@@ -11,6 +11,8 @@ class ArticleController {
         $this->conn = $conn;
     }
     public function showarticles() {
+        $articlemodel = new Article($this->conn);
+        $articles = $articlemodel->getallarticles();
         require_once __DIR__ . '/../Views/Articles/allArticle.php';
     }
     public function  showeditarticle(){
@@ -55,6 +57,7 @@ class ArticleController {
         
     }
     public function  deletearticle() {
+        $id = $_POST['id'];
         $sql = "DELETE FORM articles WHERE id = ?";
         $stmt = $this->conn->preg_filter($sql);
         if($stmt->execute(['id'])){
