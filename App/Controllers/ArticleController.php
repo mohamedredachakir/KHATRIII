@@ -10,15 +10,32 @@ class ArticleController {
     {
         $this->conn = $conn;
     }
+    private function checkauth() {
+        if(!isset($_SESSION['user'])){
+            header('Location: /login');
+            exit();
+        };
+    }
+
+    private function checkauthor() {
+        if($_SESSION['user']['role'] !== 'author'){
+            header('Location: /');
+            exit();
+        }
+    }
     public function showarticles() {
         $articlemodel = new Article($this->conn);
         $articles = $articlemodel->getallarticles();
         require_once __DIR__ . '/../Views/Articles/allArticle.php';
     }
     public function  showeditarticle(){
+        $this->checkauth();
+        $this->checkauthor();
         require_once __DIR__ . '/../Views/Articles/editArticle.php';
     }
     public function showaddarticle(){
+        $this->checkauth();
+        $this->checkauthor();
         require_once __DIR__ . '/../Views/Articles/addArticle.php';
     }
     public function addarticle() {
@@ -26,6 +43,8 @@ class ArticleController {
             header('Location: /addarticle');
             exit();
         }
+        $this->checkauth();
+        $this->checkauthor();
         $article = new Article($this->conn);
 
         $article->id_user = $_SESSION['user']['id'];
@@ -43,7 +62,8 @@ class ArticleController {
             header('Location: /editarticle');
             exit();
         }
-
+        $this->checkauth();
+        $this->checkauthor();
         $id = $_POST['id'];
         $title = $_POST['title'];
         $content = $_POST['content'];
@@ -61,6 +81,8 @@ class ArticleController {
             header('Location: /articles');
             exit();
         }
+        $this->checkauth();
+        $this->checkauthor();
         $id = $_POST['id'];
         $sql = "DELETE FROM articles WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
