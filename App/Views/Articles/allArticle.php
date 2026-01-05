@@ -57,9 +57,14 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                         <a href="/editarticle?id=<?= $article['id'] ?>" class="text-[10px] font-ui font-black uppercase tracking-widest text-ink/40 hover:text-gold transition-colors">
                             Refine
                         </a>
-                        <a href="/deletearticle?id=<?= $article['id'] ?>" class="text-[10px] font-ui font-black uppercase tracking-widest text-ink/40 hover:text-red-800 transition-colors" onclick="return confirm('Are you sure you want to burn this record?')">
-                            Burn
-                        </a>
+                        <form action="/deletearticle" method="POST" onsubmit="return confirm('Are you sure you want to burn this record?')" style="display:inline;">
+    <input type="hidden" name="id" value="<?= $article['id'] ?>">
+    <button type="submit"
+        class="text-[10px] font-ui font-black uppercase tracking-widest text-ink/40 hover:text-red-800 transition-colors">
+        Burn
+    </button>
+</form>
+
                     </div>
                     
                     <a href="/viewarticle?id=<?= $article['id'] ?>" class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center group-hover:bg-gold group-hover:border-gold group-hover:text-paper transition-all">

@@ -22,4 +22,8 @@ $router->get('/logout' , 'AuthController@logout');
 $router->get('/articles' , 'ArticleController@showarticles');
 $router->get('/createarticle' , 'ArticleController@showaddarticle');
 $router->post('/createarticle' , 'ArticleController@addarticle');
+$router->get('/editarticle' , 'ArticleController@showeditarticle');
+$router->post('/editarticle' , 'ArticleController@editarticle');
+$router->post('/deletearticle' , 'ArticleController@deletearticle');
+$router->get('/deletearticle' , 'ArticleController@deletearticle');
 $router->dispatch();

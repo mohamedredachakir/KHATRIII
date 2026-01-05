@@ -56,11 +56,15 @@ class ArticleController {
         }
         
     }
-    public function  deletearticle() {
+    public function deletearticle() {
+        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+            header('Location: /articles');
+            exit();
+        }
         $id = $_POST['id'];
-        $sql = "DELETE FORM articles WHERE id = ?";
-        $stmt = $this->conn->preg_filter($sql);
-        if($stmt->execute(['id'])){
+        $sql = "DELETE FROM articles WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if($stmt->execute([$id])){
             header('Location: /articles');
             exit();
         }
