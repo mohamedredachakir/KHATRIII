@@ -38,7 +38,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                         </span>
                     </div>
                     <span class="font-ui text-[9px] font-black uppercase tracking-tighter text-ink/30">
-                        <?= date('M d, Y', strtotime($article['created_at'])) ?>
+                        <?= date('M d, Y', strtotime($article['create_at'])) ?>
                     </span>
                 </div>
                 

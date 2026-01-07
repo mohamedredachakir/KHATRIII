@@ -13,8 +13,7 @@ class Router {
         $this->routes['POST'][$url] = $controller;
     }
     public function dispatch(){
-        $database = new Database();
-        $conn = $database->getconnection();
+        
 
 
         $url = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
@@ -22,7 +21,7 @@ class Router {
         if(isset($this->routes[$requestmethode][$url])){
             [$controllerName , $methodeName] = explode('@', $this->routes[$requestmethode][$url]);
             $controllerClass = "App\\Controllers\\$controllerName";
-            $controller = new $controllerClass($conn);
+            $controller = new $controllerClass();
             $controller->$methodeName();
             return;
         }else{

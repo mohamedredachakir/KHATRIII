@@ -2,15 +2,11 @@
 
 namespace App\Controllers;
 use App\Models\User;
+use Database;
 use PDO;
 class AuthController {
-
-    private $conn;
     protected $table = "users";
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
+    
     
 
     public function showregister(){
@@ -21,8 +17,9 @@ class AuthController {
     }
 
     private function findByEmail($email){
+        $conn = Database::getconnection();
         $sql = "SELECT * FROM {$this->table} WHERE email = :email LIMIT 1";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email' , $email);
         $stmt->execute();
 
@@ -30,10 +27,11 @@ class AuthController {
     }
 
     public function create($user){
+        $conn = Database::getconnection();
         $sql = "INSERT INTO {$this->table}
         (first_name,last_name,email,passowrd)
         VALUES (:first_name,:last_name,:email,:password)";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $user->password = password_hash($user->password, PASSWORD_DEFAULT);
 
         $stmt->bindParam(':first_name', $user->first_name);
@@ -50,7 +48,7 @@ class AuthController {
             header('Location: /register');
             exit();
         }
-        $user = new User($this->conn);
+        $user = new User();
 
         $user->first_name = $_POST['first_name'];
         $user->last_name = $_POST['last_name'];

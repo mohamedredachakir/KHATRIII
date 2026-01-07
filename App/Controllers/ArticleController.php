@@ -2,16 +2,12 @@
 
 namespace App\Controllers;
 use App\Models\Article;
-
+use Database;
 use PDO;
 class ArticleController {
-    private $conn;
+    
     protected $table = "articles";
 
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
     private function checkauth() {
         if(!isset($_SESSION['user'])){
             header('Location: /login');
@@ -27,10 +23,11 @@ class ArticleController {
     }
 
      private function createArticle($article) {
+        $conn = Database::getconnection();
         $sql = "INSERT INTO {$this->table}
         (id_user,title,content,create_at)
         VALUES (:id_user,:title,:content,:create_at)";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $conn->prepare($sql);
         
         $stmt->bindParam(':id_user', $article->id_user);
         $stmt->bindParam(':title' , $article->title);
@@ -41,9 +38,10 @@ class ArticleController {
     }
 
     private function getallarticles(){
+        $conn = Database::getconnection();
         $sql = "SELECT * FROM {$this->table}
         ORDER BY create_at DESC";
-        $stmt = $this->conn->query($sql);
+        $stmt = $conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
@@ -68,7 +66,7 @@ class ArticleController {
         }
         $this->checkauth();
         $this->checkauthor();
-        $article = new Article($this->conn);
+        $article = new Article();
 
         $article->id_user = $_SESSION['user']['id'];
         $article->title = $_POST['title'];
@@ -81,6 +79,7 @@ class ArticleController {
         }
     }
     public function editarticle() {
+        $conn = Database::getconnection();
         if($_SERVER['REQUEST_METHOD'] !== 'POST'){
             header('Location: /editarticle');
             exit();
@@ -92,7 +91,7 @@ class ArticleController {
         $content = $_POST['content'];
 
         $sql = "UPDATE articles SET title = ?, content = ? WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $conn->prepare($sql);
         if($stmt->execute([$title,$content,$id])){
             header('Location: /articles');
             exit();
@@ -100,6 +99,7 @@ class ArticleController {
         
     }
     public function deletearticle() {
+        $conn = Database::getconnection();
         if($_SERVER['REQUEST_METHOD'] !== 'POST'){
             header('Location: /articles');
             exit();
@@ -108,7 +108,7 @@ class ArticleController {
         $this->checkauthor();
         $id = $_POST['id'];
         $sql = "DELETE FROM articles WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $conn->prepare($sql);
         if($stmt->execute([$id])){
             header('Location: /articles');
             exit();
