@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Commentaire;
 use Database;
-use Dom\Comment;
 use PDO;
 
 
@@ -46,10 +45,20 @@ class CommentController {
     }
 
     public function deletecommentaire(){
+        $conn = Database::getconnection();
         if($_SERVER['REQUEST_METHOD']!== 'POST'){
             header('Location: /');
         };
-
         $this->checkauth();
+        $id = $_POST['id'];
+        $id_reader = $_SESSION['user']['id'];
+        $sql = "DELETE FROM {$this->table}
+        WHERE id = ? AND id_reader = ?";
+        $stmt = $conn->prepare($sql);
+        if($stmt->execute([$id,$id_reader])){
+            header('Location: /articles');
+            exit();
+        }
+
     }
 }
