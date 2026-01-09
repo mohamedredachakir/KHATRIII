@@ -1,0 +1,2 @@
+mysql = docker exec -it mysql_db mysql -u root -p
+
