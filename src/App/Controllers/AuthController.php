@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\User;
+use App\Models\Reader;
 use Database;
 use PDO;
 class AuthController {
@@ -48,7 +48,7 @@ class AuthController {
             header('Location: /register');
             exit();
         }
-        $user = new User();
+        $user = new Reader();
 
         $user->first_name = $_POST['first_name'];
         $user->last_name = $_POST['last_name'];

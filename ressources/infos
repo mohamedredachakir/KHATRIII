@@ -1,0 +1,26 @@
+
+
+www.domain.net/djdjd?id=55
+|---------URL-------------|
+|-domain-----|---uri------|
+             |path-|-query|
+
+url 
+domain
+uri
+path
+query
+
+app
+public
+
+public can any one enter but cant enter to app because all my systeme in app
+
+enter point -->index.php --->the key for enter to app 
+
+index
+|--router
+|--autoload
+
+
+
