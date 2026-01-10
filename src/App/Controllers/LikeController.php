@@ -66,4 +66,15 @@ class LikeController {
         return $stmt->execute();
         
     }
+
+    public function addlikecomment() {
+        $like = new LikeCommentaire();
+        $like->id_reader = $_SESSION['user']['id'];
+        $like->id_article =$_SESSION['']['id'];
+        if($this->createlikecomment($like)) {
+            header('Location: /articles');
+            exit();    
+        };
+
+    }
 }
