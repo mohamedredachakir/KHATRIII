@@ -36,16 +36,19 @@ class ProfileController {
 
     public function showreaderprofile() {
         $this->checkauth();
-        $this->checkreader();
+        
+        require_once __DIR__ .'/../Views/Profile/profilereader.php';
 
     }
 
-    public function showauthorprofile() {
-        $this->checkauthor();
-        $this->checkauth();
-    }
-    public function showadminprofile() {
-        $this->checkauth();
-        $this->checkadmin();
-    }
+    // public function showauthorprofile() {
+    //     $this->checkauthor();
+        
+    //     require_once __DIR__ .'/../Views/Profile/profile.php';
+    // }
+    // public function showadminprofile() {
+    //     $this->checkauth();
+        
+    //     require_once __DIR__ .'/../Views/Profile/profile.php';
+    // }
 }
