@@ -25,15 +25,18 @@ class CategoryController{
     private function create($caterory){
 
         $conn = Database::getconnection();
-        $sql = "INSER INTO {$this->table}
-        (name) VALUE (:name)";
+        $sql = "INSERT INTO {$this->table}
+        (name) VALUES (:name)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':name',$caterory->name);
+        return $stmt->execute();
     }
 
     public function addcategory(){
+        
         if($_SERVER['REQUEST_METHOD']!== 'POST'){
             header('Location: /');
+            exit();
         };
         $this->checkauth();
         $this->checkadmin();
@@ -41,25 +44,8 @@ class CategoryController{
         $caterory->name = $_POST['name'];
 
         if($this->create($caterory)){
-
-        };
-    }
-
-    public function editcategory(){
-        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-
-        }
-
-        $this->checkauth();
-        $this->checkadmin();
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $conn = Database::getconnection();
-        $sql = "UPDATE {$this->table}
-        SET name = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute($id,$name)){
-
+             header('Location: /profile');
+             exit();
         };
     }
 
@@ -79,19 +65,5 @@ class CategoryController{
 
         };
 
-    }
-
-    private function getall(){
-        $conn = Database::getconnection();
-        $sql = "SELECT * FROM {$this->table}";
-        $stmt = $conn->query($sql);
-        $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function showallcategory(){
-        $this->checkauth();
-        $this->checkadmin();
-        $category = $this->getall();
-        require_once __DIR__ . '/../Views/';
     }
 }
