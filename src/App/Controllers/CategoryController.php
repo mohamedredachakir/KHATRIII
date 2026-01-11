@@ -56,13 +56,13 @@ class CategoryController{
         $this->checkauth();
         $this->checkadmin();
         $id = $_POST['id'];
-        $name = $_POST['name'];
         $conn = Database::getconnection();
         $sql = "DELETE FROM {$this->table} WHERE id = ?";
         $stmt = $conn->prepare($sql);
 
-        if($stmt->execute($id,$name)){
-
+        if($stmt->execute([$id])){
+            header('Location: /profile');
+            exit();
         };
 
     }
