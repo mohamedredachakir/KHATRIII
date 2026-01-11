@@ -49,5 +49,5 @@ $router->post('/editprofile' , 'ProfileController@editprofile');
 $router->post('/beauthor' , 'ProfileController@beauthor');
 $router->post('/addcategory' , 'CategoryController@addcategory');
 $router->post('/deletecategory' , 'CategoryController@deletecategory');
-// // $router->post('/profile' , 'ProfileController@showadminprofile');
+$router->post('/likearticle' , 'LikeController@addlikearticle');
 $router->dispatch();

@@ -47,24 +47,24 @@ class ArticleController {
         return $categories;
     }
     private function getallarticles(){
-        $conn = Database::getconnection();
-        $sql = "SELECT * FROM {$this->table} ORDER BY create_at DESC";
+        $conn = Database::getConnection();
+        $sql = "
+            SELECT a.*, u.first_name AS author_name, u.last_name AS author_last,
+            COUNT(DISTINCT l.id_reader) AS likes_count,
+            GROUP_CONCAT(DISTINCT c.name) AS categories
+            FROM articles a
+            LEFT JOIN users u ON u.id = a.id_user
+            LEFT JOIN like_article l ON l.id_article = a.id
+            LEFT JOIN article_categorie ac ON ac.id_article = a.id
+            LEFT JOIN categories c ON c.id = ac.id_categorie
+            GROUP BY a.id
+            ORDER BY a.create_at DESC
+        ";
+
         $stmt = $conn->query($sql);
-        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($articles as &$article) {
-        $stmtCat = $conn->prepare(
-            "SELECT c.name 
-             FROM categories c
-             JOIN article_categorie ac ON c.id = ac.id_categorie
-             WHERE ac.id_article = ?"
-        );
-        $stmtCat->execute([$article['id']]);
-        $article['categories'] = $stmtCat->fetchAll(PDO::FETCH_COLUMN); // array of names
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    return $articles;
-    }
 
      private function fetchArticleById($id){
         $conn = Database::getconnection();
