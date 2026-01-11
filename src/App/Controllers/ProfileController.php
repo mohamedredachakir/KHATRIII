@@ -34,10 +34,23 @@ class ProfileController {
         };
     }
 
+     private function fetchAuthorArticles() {
+        $conn = Database::getconnection();
+        $id = $_SESSION['user']['id'];
+        $sql = 'SELECT * FROM articles WHERE id_user = ?';
+        $stmt = $conn->prepare($sql);
+        if($stmt->execute([$id])){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        };
+        
+
+    }
+
     public function showprofile() {
         $user = $_SESSION['user'];
         $this->checkauth();
         if($_SESSION['user']['role'] === 'author'){
+            $author_articles = $this->fetchAuthorArticles();
             require_once __DIR__ .'/../Views/Profile/profileauthor.php';
         };
          if($_SESSION['user']['role'] === 'reader'){
@@ -48,11 +61,6 @@ class ProfileController {
         };
     }
     
-    private function fetchArticleById() {
-        
-
-    }
-
     public function showeditprofile() {
         $user = $_SESSION['user'];
         require_once __DIR__ .'/../Views/Profile/editProfile.php';
