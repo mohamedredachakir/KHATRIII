@@ -77,11 +77,11 @@ class ProfileController {
 
     private function getAllCategories(){
         $conn = Database::getconnection();
-        $sql = 'SELECT COUNT(*) AS total FROM categories';
+        $sql = 'SELECT name FROM categories';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total'];
+        $categories = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        return $categories;
     }
 
 

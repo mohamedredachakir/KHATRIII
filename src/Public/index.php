@@ -47,7 +47,7 @@ $router->get('/profile' , 'ProfileController@showprofile');
 $router->get('/editprofile' , 'ProfileController@showeditprofile');
 $router->post('/editprofile' , 'ProfileController@editprofile');
 $router->post('/beauthor' , 'ProfileController@beauthor');
-// $router->post('/profile' , 'ProfileController@showreaderprofile');
+$router->post('/addcategory' , 'CategoryController@addcategory');
 // // $router->post('/profile' , 'ProfileController@showauthorprofile');
 // // $router->post('/profile' , 'ProfileController@showadminprofile');
 $router->dispatch();
