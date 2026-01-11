@@ -38,10 +38,10 @@ require_once __DIR__ . '/../Layouts/navbar.php';
         <div class="lg:col-span-1 space-y-8">
             <div class="profile-card-main shadow-sm flex flex-col items-center text-center">
                 <div class="w-24 h-24 rounded-full bg-[#2c1810] flex items-center justify-center text-gold text-4xl font-black border-4 border-gold/20 mb-6 shadow-xl">
-                    <?= strtoupper(substr($user['username'] ?? 'U', 0, 1)) ?>
+                    <?= strtoupper(substr($user['first_name'] ?? 'U', 0, 1)) ?>
                 </div>
                 
-                <h2 class="font-book text-3xl font-bold italic text-ink"><?= htmlspecialchars($user['username'] ?? 'Citizen') ?></h2>
+                <h2 class="font-book text-3xl font-bold italic text-ink"><?= htmlspecialchars($user['first_name'] ?? 'Citizen') ?></h2>
                 <p class="font-ui text-[10px] uppercase font-black tracking-[0.3em] text-gold mb-4"><?= htmlspecialchars($user['role'] ?? 'Reader') ?></p>
                 
                 <div class="w-full pt-6 mt-6 border-t border-[#2c1810]/5 space-y-4 text-left mb-8">
@@ -73,7 +73,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                     
                     <?php if ($_SESSION['user']['role'] === 'reader'): ?>
                     <div class="flex-shrink-0">
-                        <form action="/update-role" method="POST">
+                        <form action="/beauthor" method="POST">
                             <button type="submit" class="whitespace-nowrap px-8 py-4 bg-gold text-[#2c1810] rounded-full font-ui text-[10px] uppercase font-black tracking-widest hover:bg-[#2c1810] hover:text-paper transition-all shadow-xl active:scale-95">
                                 Switch to Author &rarr;
                             </button>

@@ -50,12 +50,12 @@ require_once __DIR__ . '/../Layouts/navbar.php';
     </div>
 
     <div class="edit-profile-card shadow-2xl">
-        <form action="/update-profile" method="POST" enctype="multipart/form-data" class="space-y-10">
+        <form action="/editprofile" method="POST" enctype="multipart/form-data" class="space-y-10">
             
             <div class="flex flex-col items-center mb-12">
                 <div class="relative group">
                     <div class="w-32 h-32 rounded-full bg-[#2c1810] flex items-center justify-center text-gold text-5xl font-black border-4 border-gold/20 shadow-xl overflow-hidden">
-                        <span id="initials"><?= strtoupper(substr($user['username'] ?? 'U', 0, 1)) ?></span>
+                        <span id="initials"><?= strtoupper(substr($user['first_name'] ?? 'U', 0, 1)) ?></span>
                     </div>
                     <label for="avatar" class="absolute bottom-0 right-0 bg-gold w-10 h-10 rounded-full flex items-center justify-center cursor-pointer border-4 border-[#f2e8cf] hover:scale-110 transition-transform shadow-lg">
                         <span class="text-[#2c1810] text-lg font-bold">&#9998;</span>
@@ -67,13 +67,18 @@ require_once __DIR__ . '/../Layouts/navbar.php';
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                    <label class="input-label">Pen Name (Username)</label>
-                    <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" class="form-input" placeholder="Enter your scribe name...">
+                    <label class="input-label">First Name</label>
+                    <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" class="form-input" placeholder="Your given name...">
+                </div>
+
+                <div>
+                    <label class="input-label">Last Name</label>
+                    <input type="text" name="last_name" value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" class="form-input" placeholder="Your family legacy...">
                 </div>
 
                 <div>
                     <label class="input-label">Correspondence (Email)</label>
-                    <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" class="form-input" placeholder="Email for the archives...">
+                    <input type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" class="form-input" placeholder="Email for the archives...">
                 </div>
 
                 <div>
@@ -81,9 +86,9 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                     <input type="password" name="password" class="form-input" placeholder="Leave blank to keep current...">
                 </div>
 
-                <div>
+                <div class="md:col-span-2">
                     <label class="input-label">Current Rank</label>
-                    <input type="text" value="<?= ucfirst($user['role']) ?>" disabled class="form-input opacity-50 cursor-not-allowed italic" style="background: rgba(44, 24, 16, 0.05);">
+                    <input type="text" value="<?= ucfirst($user['role'] ?? 'Citizen') ?>" disabled class="form-input opacity-50 cursor-not-allowed italic" style="background: rgba(44, 24, 16, 0.05);">
                 </div>
             </div>
 

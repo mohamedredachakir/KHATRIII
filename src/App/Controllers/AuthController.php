@@ -75,11 +75,7 @@ class AuthController {
         $user = $this->findByEmail($email);
 
         if($user && password_verify($password,$user['passowrd'])){
-            $_SESSION['user'] = [
-                'id' => $user['id'],
-                'name' => $user['first_name'],
-                'role' => $user['role']
-            ];
+            $_SESSION['user'] = $user;
             header('Location: /');
             exit();
         }

@@ -44,7 +44,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                 <div class="w-24 h-24 rounded-full bg-[#2c1810] flex items-center justify-center text-gold text-4xl font-black border-4 border-gold/20 mb-6 shadow-xl">
                     <?= strtoupper(substr($user['username'] ?? 'A', 0, 1)) ?>
                 </div>
-                <h2 class="font-book text-2xl font-bold italic text-ink"><?= htmlspecialchars($user['username']) ?></h2>
+                <h2 class="font-book text-2xl font-bold italic text-ink"><?= htmlspecialchars($user['first_name']) ?></h2>
                 <p class="font-ui text-[9px] uppercase font-black text-gold tracking-widest mb-6">Verified Author</p>
                 
                 <div class="w-full space-y-3">
