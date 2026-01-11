@@ -45,6 +45,37 @@ class ProfileController {
         
 
     }
+    
+    private function countReaders(){
+        $conn = Database::getconnection();
+        $role = 'reader';
+        $sql = 'SELECT COUNT(*) AS total FROM users WHERE role = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$role]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    private function countAuthors(){
+        $conn = Database::getconnection();
+        $role = 'author';
+        $sql = 'SELECT COUNT(*) AS total FROM users WHERE role = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$role]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    private function countArticles(){
+        $conn = Database::getconnection();
+        $sql = 'SELECT COUNT(*) AS total FROM articles';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    
 
     public function showprofile() {
         $user = $_SESSION['user'];
@@ -57,6 +88,9 @@ class ProfileController {
             require_once __DIR__ .'/../Views/Profile/profilereader.php';
         };
          if($_SESSION['user']['role'] === 'admin'){
+            $total_readers = $this->countReaders();
+            $total_authors = $this->countAuthors();
+            $total_articles = $this->countArticles();
             require_once __DIR__ .'/../Views/Profile/dashboard.php';
         };
     }
