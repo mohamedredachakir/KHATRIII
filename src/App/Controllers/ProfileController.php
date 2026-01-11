@@ -75,7 +75,15 @@ class ProfileController {
         return $result['total'];
     }
 
-    
+    private function getAllCategories(){
+        $conn = Database::getconnection();
+        $sql = 'SELECT COUNT(*) AS total FROM categories';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
 
     public function showprofile() {
         $user = $_SESSION['user'];
@@ -91,6 +99,7 @@ class ProfileController {
             $total_readers = $this->countReaders();
             $total_authors = $this->countAuthors();
             $total_articles = $this->countArticles();
+            $categories = $this->getAllCategories();
             require_once __DIR__ .'/../Views/Profile/dashboard.php';
         };
     }
