@@ -49,16 +49,22 @@ class ArticleController {
     private function getallarticles(){
         $conn = Database::getConnection();
         $sql = "
-            SELECT a.*, u.first_name AS author_name, u.last_name AS author_last,
-            COUNT(DISTINCT l.id_reader) AS likes_count,
-            GROUP_CONCAT(DISTINCT c.name) AS categories
-            FROM articles a
-            LEFT JOIN users u ON u.id = a.id_user
-            LEFT JOIN like_article l ON l.id_article = a.id
-            LEFT JOIN article_categorie ac ON ac.id_article = a.id
-            LEFT JOIN categories c ON c.id = ac.id_categorie
-            GROUP BY a.id
-            ORDER BY a.create_at DESC
+          SELECT 
+    a.*, 
+    u.first_name AS author_name, 
+    u.last_name AS author_last,
+    COUNT(DISTINCT l.id_reader) AS likes_count,
+    COUNT(DISTINCT cm.id) AS comments_count,
+    GROUP_CONCAT(DISTINCT c.name) AS categories
+FROM articles a
+LEFT JOIN users u ON u.id = a.id_user
+LEFT JOIN like_article l ON l.id_article = a.id
+LEFT JOIN commentaires cm ON cm.id_article = a.id
+LEFT JOIN article_categorie ac ON ac.id_article = a.id
+LEFT JOIN categories c ON c.id = ac.id_categorie
+GROUP BY a.id
+ORDER BY a.create_at DESC;
+
         ";
 
         $stmt = $conn->query($sql);

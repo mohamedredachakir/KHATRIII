@@ -50,4 +50,7 @@ $router->post('/beauthor' , 'ProfileController@beauthor');
 $router->post('/addcategory' , 'CategoryController@addcategory');
 $router->post('/deletecategory' , 'CategoryController@deletecategory');
 $router->post('/likearticle' , 'LikeController@addlikearticle');
+$router->get('/comment', 'CommentController@showcomments');
+$router->post('/addcomment', 'CommentController@addcommentaire');
+$router->post('/deletecomment', 'CommentController@deletecommentaire');
 $router->dispatch();
