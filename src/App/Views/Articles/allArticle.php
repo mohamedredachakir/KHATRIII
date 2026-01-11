@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
 ?>
 
 <style>
-    /* أيقونات الكود (HTML Entities) */
+    
     .icon-code {
         font-family: serif;
         font-weight: bold;

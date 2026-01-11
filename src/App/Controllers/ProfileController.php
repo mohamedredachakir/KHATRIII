@@ -77,10 +77,10 @@ class ProfileController {
 
     private function getAllCategories(){
         $conn = Database::getconnection();
-        $sql = 'SELECT name FROM categories';
+        $sql = 'SELECT * FROM categories';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $categories = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $categories;
     }
 
@@ -100,6 +100,7 @@ class ProfileController {
             $total_authors = $this->countAuthors();
             $total_articles = $this->countArticles();
             $categories = $this->getAllCategories();
+            //dd($categories);
             require_once __DIR__ .'/../Views/Profile/dashboard.php';
         };
     }

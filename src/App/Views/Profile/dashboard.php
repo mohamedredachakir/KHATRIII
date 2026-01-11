@@ -5,7 +5,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
 // $total_readers = countReaders();
 // $total_authors = countAuthors();
 // $total_articles = countArticles();
-// $categories = getAllCategories();
+// $categories = getAllCategories(); 
 ?>
 
 <style>
@@ -24,21 +24,20 @@ require_once __DIR__ . '/../Layouts/navbar.php';
         transition: transform 0.3s ease;
     }
 
-    .stat-box:hover { transform: translateY(-5px); }
-
-    .category-tag {
-        background: #2c1810;
-        color: #f2e8cf;
-        padding: 0.5rem 1rem;
-        border-radius: 99px;
-        font-family: 'ui-sans-serif';
-        font-size: 10px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
+    .category-item {
+        background: rgba(44, 24, 16, 0.03);
+        border-radius: 1rem;
+        padding: 0.75rem 1.5rem;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 0.5rem;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .category-item:hover {
+        border-color: #d4af37;
+        background: white;
     }
 
     .icon-code { font-family: serif; font-weight: bold; }
@@ -70,47 +69,59 @@ require_once __DIR__ . '/../Layouts/navbar.php';
         
         <div class="lg:col-span-2 space-y-8">
             <div class="admin-card shadow-sm">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="font-book text-3xl font-bold italic text-ink">Chronicle Categories</h3>
-                    
-                    <form action="/addcategory" method="POST" class="flex gap-2">
-                        <input type="text" name="name" placeholder="New Category..." 
-                               class="bg-white/50 border border-[#2c1810]/10 rounded-full px-4 py-2 text-xs font-book italic focus:outline-none focus:border-gold">
-                        <button type="submit" class="bg-gold text-[#2c1810] px-4 py-2 rounded-full font-ui text-[10px] font-black uppercase tracking-widest hover:bg-ink hover:text-white transition-all">
-                            Add
+                <h3 class="font-book text-3xl font-bold italic text-ink mb-8">Chronicle Categories</h3>
+                
+                <div class="mb-10 pb-10 border-b border-[#2c1810]/5">
+                    <label class="font-ui text-[9px] uppercase font-black text-ink/30 tracking-widest block mb-4">Forge New Category</label>
+                    <form action="/addcategory" method="POST" class="flex gap-4">
+                        <input type="text" name="name" placeholder="Enter category name..." 
+                               class="flex-grow bg-white border border-[#2c1810]/10 rounded-full px-6 py-3 text-sm font-book italic focus:outline-none focus:border-gold shadow-inner">
+                        <button type="submit" class="bg-[#2c1810] text-paper px-8 py-3 rounded-full font-ui text-[10px] font-black uppercase tracking-widest hover:bg-gold hover:text-[#2c1810] transition-all shadow-lg">
+                            Add Category
                         </button>
                     </form>
                 </div>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="space-y-3">
+                    <label class="font-ui text-[9px] uppercase font-black text-ink/30 tracking-widest block mb-4">Existing Categories</label>
+                    
                     <?php if (!empty($categories)): ?>
-                        <?php foreach($categories as $cat): ?>
-                        <div class="category-tag group">
-                            <?= htmlspecialchars($cat['name']) ?>
-                            <form action="/deletecategory" method="POST" class="inline">
-                                <input type="hidden" name="id" value="<?= $cat['id'] ?>">
-                                <button type="submit" class="hover:text-red-500 transition-colors text-sm font-bold ml-2" onclick="return confirm('Delete category?')">
-                                    &times;
-                                </button>
-                            </form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <?php foreach($categories as $cat): ?>
+                            <div class="category-item group">
+                                <span class="font-book text-lg font-bold italic text-ink">
+                                    <?= htmlspecialchars($cat['name'] ?? $cat) ?>
+                                </span>
+                                
+                                <form action="/deletecategory" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($cat['id'] ?? $cat) ?>">
+                                    <button type="submit" 
+                                            class="font-ui text-[9px] font-black uppercase text-red-800/40 hover:text-red-600 tracking-tighter transition-colors"
+                                            onclick="return confirm('Do you wish to delete this category?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="font-book text-sm text-ink/30 italic">No categories forged yet.</p>
+                        <div class="py-10 text-center border-2 border-dashed border-[#2c1810]/5 rounded-3xl">
+                            <p class="font-book text-sm text-ink/30 italic">No categories have been forged yet.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
         <div class="lg:col-span-1 space-y-8">
-            <div class="admin-card border-dashed border-2 border-gold/30 bg-gold/5">
+            <div class="admin-card border-dashed border-2 border-gold/30 bg-gold/5 p-8">
                 <h4 class="font-book text-xl font-bold italic text-ink mb-6">Master Controls</h4>
                 <div class="space-y-4">
-                    <a href="/admin/users" class="flex items-center justify-between p-4 bg-white/40 rounded-2xl hover:bg-white transition-all group">
+                    <a href="/admin/users" class="flex items-center justify-between p-4 bg-white/40 rounded-2xl hover:bg-white transition-all group border border-transparent hover:border-gold/20">
                         <span class="font-ui text-[10px] uppercase font-black text-ink/60 group-hover:text-ink">User Directory</span>
                         <span class="icon-code text-gold">&#10142;</span>
                     </a>
-                    <a href="/admin/reports" class="flex items-center justify-between p-4 bg-white/40 rounded-2xl hover:bg-white transition-all group">
+                    <a href="/admin/reports" class="flex items-center justify-between p-4 bg-white/40 rounded-2xl hover:bg-white transition-all group border border-transparent hover:border-gold/20">
                         <span class="font-ui text-[10px] uppercase font-black text-ink/60 group-hover:text-ink">Review Reports</span>
                         <span class="icon-code text-gold">&#9873;</span>
                     </a>
