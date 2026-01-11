@@ -33,10 +33,19 @@ class ArticleController {
         $stmt->bindParam(':title' , $article->title);
         $stmt->bindParam(':content' , $article->content);
         $stmt->bindParam(':create_at', $article->create_at);
-
-        return $stmt->execute();
+        
+        if ($stmt->execute()) {
+         return (int)$conn->lastInsertId();
+        }
     }
-
+    private function getAllCategories(){
+        $conn = Database::getconnection();
+        $sql = 'SELECT * FROM categories';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $categories;
+    }
     private function getallarticles(){
         $conn = Database::getconnection();
         $sql = "SELECT * FROM {$this->table}
@@ -52,11 +61,13 @@ class ArticleController {
     public function  showeditarticle(){
         $this->checkauth();
         $this->checkauthor();
+        $categories = $this->getAllCategories();
         require_once __DIR__ . '/../Views/Articles/editArticle.php';
     }
     public function showaddarticle(){
         $this->checkauth();
         $this->checkauthor();
+        $categories = $this->getAllCategories();
         require_once __DIR__ . '/../Views/Articles/addArticle.php';
     }
     public function addarticle() {
@@ -67,16 +78,28 @@ class ArticleController {
         $this->checkauth();
         $this->checkauthor();
         $article = new Article();
-
+        
         $article->id_user = $_SESSION['user']['id'];
         $article->title = $_POST['title'];
         $article->content = $_POST['content'];
         $article->create_at = date('Y-m-d H:i:s');
+        //dd($_POST);
+        $articleId = $this->createArticle($article);
+        if (!empty($_POST['categories']) && is_array($_POST['categories'])) {
+        $conn = Database::getconnection();
+        $sql = "INSERT INTO article_categorie (id_article, id_categorie)
+            VALUES (:id_article, :id_categorie)";
+        $stmt = $conn->prepare($sql);
+        foreach ($_POST['categories'] as $categoryId) {
+        $stmt->execute([
+            ':id_article'   => $articleId,
+            ':id_categorie' => $categoryId
+        ]);
+    }
+    header('Location: /articles');
+    exit();
+}
 
-        if($this->createArticle($article)){
-            header('Location: /articles');
-            exit();
-        }
     }
     public function editarticle() {
         $conn = Database::getconnection();
@@ -90,10 +113,23 @@ class ArticleController {
         $title = $_POST['title'];
         $content = $_POST['content'];
         $id_user = $_SESSION['user']['id'];
-
+        $id_categorie = $_POST['id_categorie'];
         $sql = "UPDATE articles SET title = ?, content = ? WHERE id = ? AND id_user = ?";
         $stmt = $conn->prepare($sql);
         if($stmt->execute([$title,$content,$id,$id_user])){
+            $conn = Database::getconnection();
+            $sql = "DELETE FROM article_categorie WHERE id_article = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+
+              if (!empty($categories) && is_array($categories)) {
+                $sql = "INSERT INTO article_categorie (id_article, id_categorie)
+                VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                foreach ($categories as $categoryId) {
+                $stmt->execute([$id, (int)$categoryId]);
+                }
+            }
             header('Location: /articles');
             exit();
         }
