@@ -22,7 +22,12 @@ require_once __DIR__ . '/../Layouts/navbar.php';
         border-left: 3px solid #d4af37;
     }
 
-    .icon-code { font-family: serif; font-weight: bold; }
+    /* تنسيق الأيقونات البرمجية */
+    .svg-icon {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+    }
 </style>
 
 <main class="relative z-20 max-w-7xl mx-auto px-6 md:px-10 mt-16 mb-24">
@@ -58,7 +63,7 @@ require_once __DIR__ . '/../Layouts/navbar.php';
                 <h4 class="font-ui text-[10px] uppercase font-black text-ink/40 tracking-widest ml-4">Quick Insights</h4>
                 <div class="stat-pill">
                     <span class="block font-ui text-[9px] uppercase font-black text-ink/40">Total Victories</span>
-                    <span class="font-book text-2xl font-bold italic text-ink"><?= count($author_articles) ?></span>
+                    <span class="font-book text-2xl font-bold italic text-ink"><?= count($author_articles ?? []) ?></span>
                 </div>
             </div>
         </div>
@@ -73,29 +78,29 @@ require_once __DIR__ . '/../Layouts/navbar.php';
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <?php foreach($author_articles as $article): ?>
-                    <article class="victory-bg-paper ink-border rounded-[2rem] p-8 flex flex-col h-[350px] group relative">
+                    <article class="victory-bg-paper ink-border rounded-[2rem] p-8 flex flex-col h-[280px] group relative shadow-sm hover:shadow-xl transition-all duration-500">
                         <div class="flex justify-between mb-4">
                             <span class="font-ui text-[9px] uppercase font-black text-gold italic">#<?= $article['id'] ?></span>
-                            <div class="flex space-x-3">
-                                <a href="/editarticle?id=<?= $article['id'] ?>" class="text-[10px] font-black text-ink/40 hover:text-gold uppercase tracking-tighter">Edit</a>
-                                <form action="/deletearticle" method="POST" onsubmit="return confirm('Burn this manuscript forever?')">
+                            
+                            <div class="flex space-x-4">
+                                <a href="/editarticle?id=<?= $article['id'] ?>" class="flex items-center space-x-2 text-[10px] font-black text-ink/40 hover:text-gold transition-colors uppercase tracking-widest group/btn">
+                                    <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4L18.5 2.5z"></path></svg>
+                                    <span>Edit</span>
+                                </a>
+
+                                <form action="/deletearticle" method="POST" onsubmit="return confirm('Burn this manuscript forever? This action cannot be undone.')">
                                     <input type="hidden" name="id" value="<?= $article['id'] ?>">
-                                    <button class="text-[10px] font-black text-ink/40 hover:text-red-800 uppercase tracking-tighter">Burn</button>
+                                    <button type="submit" class="flex items-center space-x-2 text-[10px] font-black text-ink/40 hover:text-red-800 transition-colors uppercase tracking-widest group/btn">
+                                        <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                        <span>Burn</span>
+                                    </button>
                                 </form>
                             </div>
                         </div>
-                        <h4 class="font-book text-2xl font-bold italic text-ink mb-4 line-clamp-2"><?= htmlspecialchars($article['title']) ?></h4>
-                        <p class="font-book text-sm text-ink/60 italic line-clamp-3 mb-6"><?= htmlspecialchars(strip_tags($article['content'])) ?></p>
-                        
-                        <div class="mt-auto pt-6 border-t border-[#2c1810]/5 flex items-center space-x-6">
-                            <div class="flex items-center space-x-2 text-ink/30">
-                                <span class="icon-code text-lg">&hearts;</span>
-                                <span class="font-ui text-[10px] font-black"><?= $article['likes_count'] ?></span>
-                            </div>
-                            <div class="flex items-center space-x-2 text-ink/30">
-                                <span class="icon-code text-md">&#10002;</span>
-                                <span class="font-ui text-[10px] font-black"><?= $article['comments_count'] ?></span>
-                            </div>
+
+                        <div class="flex-grow cursor-default">
+                            <h4 class="font-book text-2xl font-bold italic text-ink mb-3 line-clamp-2"><?= htmlspecialchars($article['title']) ?></h4>
+                            <p class="font-book text-sm text-ink/60 italic line-clamp-4 leading-relaxed"><?= htmlspecialchars(strip_tags($article['content'])) ?></p>
                         </div>
                     </article>
                     <?php endforeach; ?>
@@ -105,31 +110,28 @@ require_once __DIR__ . '/../Layouts/navbar.php';
             <section>
                 <div class="flex items-center space-x-4 mb-8">
                     <span class="h-px w-10 bg-gold"></span>
-                    <h3 class="font-book text-3xl font-bold italic text-ink">Engagement Insights</h3>
+                    <h3 class="font-book text-3xl font-bold italic text-ink">Legacy Discourse</h3>
                 </div>
 
-                <div class="victory-bg-paper ink-border rounded-[2.5rem] overflow-hidden">
+                <div class="victory-bg-paper ink-border rounded-[2.5rem] overflow-hidden shadow-sm">
                     <table class="w-full text-left font-book">
                         <thead class="bg-[#2c1810]/5 border-b border-[#2c1810]/10">
                             <tr>
                                 <th class="px-8 py-5 font-ui text-[10px] uppercase font-black text-ink/50">Manuscript Title</th>
-                                <th class="px-8 py-5 font-ui text-[10px] uppercase font-black text-ink/50 text-center">Interactions</th>
-                                <th class="px-8 py-5 font-ui text-[10px] uppercase font-black text-ink/50 text-right">Action</th>
+                                <th class="px-8 py-5 font-ui text-[10px] uppercase font-black text-ink/50 text-right">Records</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#2c1810]/5">
                             <?php foreach($author_articles as $article): ?>
-                            <tr class="hover:bg-gold/5 transition-colors">
-                                <td class="px-8 py-6 font-bold italic text-ink"><?= htmlspecialchars($article['title']) ?></td>
+                            <tr class="hover:bg-gold/5 transition-colors group">
                                 <td class="px-8 py-6">
-                                    <div class="flex justify-center space-x-6">
-                                        <span class="text-xs font-bold text-ink/60 italic"><?= $article['likes_count'] ?> Likes</span>
-                                        <span class="text-xs font-bold text-ink/60 italic"><?= $article['comments_count'] ?> Comments</span>
-                                    </div>
+                                    <span class="font-bold italic text-ink block"><?= htmlspecialchars($article['title']) ?></span>
+                                    <span class="font-ui text-[8px] uppercase text-ink/30 tracking-widest">Archived Victory</span>
                                 </td>
                                 <td class="px-8 py-6 text-right">
-                                    <a href="/view-comments?article_id=<?= $article['id'] ?>" class="font-ui text-[9px] font-black uppercase tracking-widest text-gold hover:text-ink transition-colors">
-                                        See All Comments &rarr;
+                                    <a href="/articles" class="inline-flex items-center space-x-2 py-2 px-4 border border-gold/20 rounded-full font-ui text-[9px] font-black uppercase tracking-widest text-gold hover:bg-gold hover:text-[#2c1810] transition-all">
+                                        <span>Review Discourse</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                     </a>
                                 </td>
                             </tr>

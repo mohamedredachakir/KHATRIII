@@ -56,11 +56,11 @@ class ArticleController {
     COUNT(DISTINCT l.id_reader) AS likes_count,
     COUNT(DISTINCT cm.id) AS comments_count,
     GROUP_CONCAT(DISTINCT c.name) AS categories
-FROM articles a
-LEFT JOIN users u ON u.id = a.id_user
-LEFT JOIN like_article l ON l.id_article = a.id
-LEFT JOIN commentaires cm ON cm.id_article = a.id
-LEFT JOIN article_categorie ac ON ac.id_article = a.id
+    FROM articles a
+    LEFT JOIN users u ON u.id = a.id_user
+    LEFT JOIN like_article l ON l.id_article = a.id
+    LEFT JOIN commentaires cm ON cm.id_article = a.id
+    LEFT JOIN article_categorie ac ON ac.id_article = a.id
 LEFT JOIN categories c ON c.id = ac.id_categorie
 GROUP BY a.id
 ORDER BY a.create_at DESC;
@@ -162,21 +162,54 @@ ORDER BY a.create_at DESC;
         }
         
     }
-    public function deletearticle() {
-        $conn = Database::getconnection();
-        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-            header('Location: /articles');
-            exit();
-        }
-        $this->checkauth();
-        $this->checkauthor();
-        $id = $_POST['id'];
-        $id_user = $_SESSION['user']['id'];
+public function deletearticle() {
+    $conn = Database::getconnection();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: /articles');
+        exit();
+    }
+
+    $this->checkauth();
+    $this->checkauthor();
+
+    $id = $_POST['id'];
+    $id_user = $_SESSION['user']['id'];
+
+    try {
+       
+       
+
+        
+        $sql = "DELETE FROM commentaires WHERE id_article = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$id]);
+
+    
+        $sql = "DELETE FROM like_article WHERE id_article = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$id]);
+
+        
+        $sql = "DELETE FROM article_categorie WHERE id_article = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$id]);
+
+       
         $sql = "DELETE FROM articles WHERE id = ? AND id_user = ?";
         $stmt = $conn->prepare($sql);
-        if($stmt->execute([$id,$id_user])){
-            header('Location: /articles');
-            exit();
-        }
+        $stmt->execute([$id, $id_user]);
+
+       
+        
+
+        header('Location: /profile');
+        exit();
+
+    } catch (PDOException $e) {
+        $conn->rollBack();
+        die("Delete failed: " . $e->getMessage());
     }
+}
+
 }
